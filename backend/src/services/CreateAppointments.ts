@@ -1,4 +1,6 @@
+import 'reflect-metadata';
 import { startOfHour } from 'date-fns';
+import { getCustomRepository } from 'typeorm';
 
 import Appointment from '../models/Appointment';
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
@@ -9,16 +11,11 @@ interface Request {
 }
 
 class CreateAppontmentService {
-  private appointmentsRepository: AppointmentsRepository;
-
-  constructor(appointmentsRepository: AppointmentsRepository) {
-    this.appointmentsRepository = appointmentsRepository;
-  }
-
-  public run({ date, provider }: Request): Appointment {
+  public async run({ date, provider }: Request): Promise<Appointment> {
+    const appointmentsRepository = getCustomRepository(AppointmentsRepository);
     const appointmentDate = startOfHour(date);
 
-    const checkAppointmentsinSameDate = this.appointmentsRepository.findByDate(
+    const checkAppointmentsinSameDate = await appointmentsRepository.findByDate(
       appointmentDate,
     );
 
@@ -26,10 +23,12 @@ class CreateAppontmentService {
       throw Error('💈️ Appointment is alredy booked');
     }
 
-    const appointment = this.appointmentsRepository.create({
+    const appointment = appointmentsRepository.create({
       provider,
       date: appointmentDate,
     });
+
+    await appointmentsRepository.save(appointment);
     return appointment;
   }
 }
