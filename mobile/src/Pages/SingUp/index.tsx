@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import {
   Image,
   View,
@@ -14,55 +14,51 @@ import * as Yup from 'yup';
 
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
-
 import getValidationErrors from '../../utils/getValidationErrors';
+
+import { Container, Title, BackToSingIn, BackToSingInText } from './styles';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 import logo from '../../assets/logo.png';
 
-import {
-  Container,
-  Title,
-  ForgotPassword,
-  ForgotPasswordText,
-  CreateAccountButton,
-  CreateAccountButtonText,
-} from './styles';
-
-interface SingInFormData {
+interface SingUpFormData {
+  name: string;
   email: string;
   password: string;
 }
 
-const SingIn: React.FC = () => {
+const SingUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
-  const passwordInputRef = useRef<TextInput>(null);
   const navigation = useNavigation();
 
-  const handleSingIn = useCallback(async (data: SingInFormData) => {
+  const emailInputRef = useRef<TextInput>(null);
+  const passwordInputRef = useRef<TextInput>(null);
+
+  const handleSingUp = useCallback(async (data: SingUpFormData) => {
     try {
       formRef.current?.setErrors({});
 
       const schema = Yup.object().shape({
+        name: Yup.string().required('Este campo e obrigatório'),
         email: Yup.string()
           .required('Este campo e obrigatório')
           .email('Digite um e-mail válido'),
-        password: Yup.string().required('Este campo e obrigatório'),
+        password: Yup.string().min(6, 'No mínimo 6 dígitos'),
       });
 
       await schema.validate(data, { abortEarly: false });
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const erros = getValidationErrors(err);
+
         formRef.current?.setErrors(erros);
         return;
       }
-
       Alert.alert(
-        'Erro na autenticação',
-        'Ocorreu um erro ao fazer login, cheque as credenciais',
+        'Erro no cadastro',
+        'Ocorreu um erro ao fazer o cadastro, tente novamente',
       );
     }
   }, []);
@@ -82,17 +78,28 @@ const SingIn: React.FC = () => {
             <Image source={logo} />
 
             <View>
-              <Title>Faça seu logon</Title>
+              <Title>Crie sua conta</Title>
             </View>
 
-            <Form ref={formRef} onSubmit={handleSingIn}>
+            <Form ref={formRef} onSubmit={handleSingUp}>
               <Input
+                autoCapitalize="words"
+                name="name"
+                icon="user"
+                placeholder="Nome"
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  emailInputRef.current?.focus();
+                }}
+              />
+              <Input
+                ref={emailInputRef}
+                keyboardType="email-address"
                 autoCorrect={false}
                 autoCapitalize="none"
-                keyboardType="email-address"
                 name="email"
-                icon="mail"
-                placeholder="E-mail"
+                icon="user"
+                placeholder="Email"
                 returnKeyType="next"
                 onSubmitEditing={() => {
                   passwordInputRef.current?.focus();
@@ -100,10 +107,11 @@ const SingIn: React.FC = () => {
               />
               <Input
                 ref={passwordInputRef}
+                secureTextEntry
                 name="password"
                 icon="lock"
                 placeholder="Senha"
-                secureTextEntry
+                textContentType="newPassword"
                 returnKeyType="send"
                 onSubmitEditing={() => {
                   formRef.current?.submitForm();
@@ -118,27 +126,19 @@ const SingIn: React.FC = () => {
                 Entrar
               </Button>
             </Form>
-
-            <ForgotPassword
-              onPress={() => {
-                console.log('teste');
-              }}
-            >
-              <ForgotPasswordText>Esqueci minha senha</ForgotPasswordText>
-            </ForgotPassword>
           </Container>
         </ScrollView>
       </KeyboardAvoidingView>
-      <CreateAccountButton
+      <BackToSingIn
         onPress={() => {
-          navigation.navigate('SingUp');
+          navigation.goBack();
         }}
       >
-        <Icon name="log-in" size={20} color="#ff9000" />
-        <CreateAccountButtonText>Criar conta</CreateAccountButtonText>
-      </CreateAccountButton>
+        <Icon name="arrow-left" size={20} color="#fff" />
+        <BackToSingInText>Voltar para logon</BackToSingInText>
+      </BackToSingIn>
     </>
   );
 };
 
-export default SingIn;
+export default SingUp;
