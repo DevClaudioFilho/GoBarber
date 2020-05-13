@@ -12,8 +12,8 @@ import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepo
 import IMailTemplateProvider from '@shared/container/providers/MailTemplateProvider/models/IMailTemplateProvider';
 import HandlebarsMailTemplateProvider from '@shared/container/providers/MailTemplateProvider/implementations/HandlebarsMailTemplateProvider';
 
-// import IUsersTokensRepository from '@modules/users/repositories/IUsersTokensRepository';
-// import UsersTokensRepository from '@modules/users/repositories/UsersTokensRepository';
+import IUsersTokensRepository from '@modules/users/repositories/IUsersTokensRepository';
+import UsersTokensRepository from '@modules/users/infra/typeorm/repositories/UsersTokensRepository';
 
 container.registerSingleton<IAppointmentsRepository>(
   'AppointmentsRepository',
@@ -28,4 +28,8 @@ container.registerSingleton<IUsersRepository>(
 container.registerSingleton<IMailTemplateProvider>(
   'MailTemplateProvider',
   HandlebarsMailTemplateProvider,
+);
+container.registerSingleton<IUsersTokensRepository>(
+  'UserTokensRepository',
+  UsersTokensRepository,
 );
