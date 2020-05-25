@@ -15,6 +15,9 @@ import HandlebarsMailTemplateProvider from '@shared/container/providers/MailTemp
 import IUsersTokensRepository from '@modules/users/repositories/IUsersTokensRepository';
 import UsersTokensRepository from '@modules/users/infra/typeorm/repositories/UsersTokensRepository';
 
+import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
+import NotificationRepository from '@modules/notifications/infra/typeorm/repositories/NotificationRepository';
+
 container.registerSingleton<IAppointmentsRepository>(
   'AppointmentsRepository',
   AppointmentsRepository,
@@ -32,4 +35,9 @@ container.registerSingleton<IMailTemplateProvider>(
 container.registerSingleton<IUsersTokensRepository>(
   'UserTokensRepository',
   UsersTokensRepository,
+);
+
+container.registerSingleton<INotificationsRepository>(
+  'NotificationsRepository',
+  NotificationRepository,
 );

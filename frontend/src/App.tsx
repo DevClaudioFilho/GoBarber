@@ -1,18 +1,21 @@
 import React from 'react';
-
-// import SingIn from './pages/SingIn';
-import SingUp from './pages/SingUp';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import GloblalStyle from './styles/global';
 
-import { AuthProvider } from './context/AuthContext';
+import AppProvider from './hooks';
 
-const App = () => (
+import Routes from './routes';
+
+const App: React.FC = () => (
   <>
-    <AuthProvider>
-      <SingUp />
-    </AuthProvider>
-    <GloblalStyle />
+    <Router>
+      <AppProvider>
+        <Routes />
+      </AppProvider>
+
+      <GloblalStyle />
+    </Router>
   </>
 );
 export default App;
