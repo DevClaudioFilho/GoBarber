@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import { Exclude, Expose, classToClass } from 'class-transformer';
+import { classToClass } from 'class-transformer';
 
-import UpdateProfileServices from '@modules/users/services/UpdateProfileServices';
+import UpdateProfileServices from '@modules/users/services/UpdateProfileService';
 import ShowProfileService from '@modules/users/services/ShowProfileService';
 
 export default class ProfileController {

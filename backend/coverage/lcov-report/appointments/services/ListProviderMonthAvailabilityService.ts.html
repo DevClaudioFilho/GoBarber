@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for appointments/services/ListProviderAppointmentsServices.ts</title>
+    <title>Code coverage report for appointments/services/ListProviderMonthAvailabilityService.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">appointments/services</a> ListProviderAppointmentsServices.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">appointments/services</a> ListProviderMonthAvailabilityService.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>20/20</span>
+                <span class='fraction'>22/22</span>
             </div>
         
             
@@ -39,7 +39,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -109,7 +109,15 @@
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -128,20 +136,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -152,8 +146,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">341x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -162,57 +172,62 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { injectable, inject } from 'tsyringe';
+import { getDaysInMonth, getDate, isAfter } from 'date-fns';
 &nbsp;
-import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
-import Appointment from '../infra/typeorm/entities/Appointment';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 &nbsp;
 interface IRequest {
   provider_id: string;
-  day: number;
   month: number;
   year: number;
 }
 &nbsp;
+type IResponse = Array&lt;{
+  day: number;
+  available: boolean;
+}&gt;;
+&nbsp;
 @injectable()
-class ListProvidersAppointmentsService {
+class ListProvidersMonthAvailabilityService {
   constructor(
     @inject('AppointmentsRepository')
     private appointmentsRepository: IAppointmentsRepository,
-    @inject('CacheProvider')
-    private cacheProvider: ICacheProvider,
   ) {}
 &nbsp;
-  public async run({
-    provider_id,
-    year,
-    month,
-    day,
-  }: IRequest): Promise&lt;Appointment[]&gt; {
-    const cacheKey = `provider-appointments:${provider_id}:${year}-${month}-${day}`;
-&nbsp;
-    let appointments = await this.cacheProvider.recover&lt;Appointment[]&gt;(
-      cacheKey,
+  public async run({ provider_id, year, month }: IRequest): Promise&lt;IResponse&gt; {
+    const appointments = await this.appointmentsRepository.findAllInMonthFromProvider(
+      {
+        provider_id,
+        year,
+        month,
+      },
     );
 &nbsp;
-    if (<span class="missing-if-branch" title="if path not taken" >I</span>!appointments) {
-      appointments = await this.appointmentsRepository.findAllInDayFromProvider(
-        {
-          provider_id,
-          year,
-          month,
-          day,
-        },
-      );
+    const numberOfDaysInMonth = getDaysInMonth(new Date(year, month - 1));
 &nbsp;
-      await this.cacheProvider.save(cacheKey, appointments);
-    }
+    const eachDayArray = Array.from(
+      { length: numberOfDaysInMonth },
+      (value, index) =&gt; index + 1,
+    );
 &nbsp;
-    return appointments;
+    const availability = eachDayArray.map(day =&gt; {
+      const compareDate = new Date(year, month - 1, day, 23, 59, 59);
+&nbsp;
+      const appointmentsInDay = appointments.filter(appointment =&gt; {
+        return getDate(appointment.date) === day;
+      });
+      return {
+        day,
+        available:
+          isAfter(compareDate, new Date()) &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >appointmentsInDay.length &lt; 10,</span>
+      };
+    });
+&nbsp;
+    return availability;
   }
 }
 &nbsp;
-export default ListProvidersAppointmentsService;
+export default ListProvidersMonthAvailabilityService;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->

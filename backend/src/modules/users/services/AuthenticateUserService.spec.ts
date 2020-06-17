@@ -14,7 +14,7 @@ describe('AuthenticateUser', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeHashProvider = new FakeHashProvider();
-    createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider);
+
     authenticateUser = new AuthenticateUserService(
       fakeUsersRepository,
       fakeHashProvider,
@@ -22,7 +22,7 @@ describe('AuthenticateUser', () => {
   });
 
   it('should be able to authenticate', async () => {
-    await createUser.run({
+    await fakeUsersRepository.create({
       name: 'Tester',
       email: 'tester@admin.com',
       password: '123456',
@@ -46,7 +46,7 @@ describe('AuthenticateUser', () => {
   });
 
   it('should not be able to authenticate whith non existing user', async () => {
-    await createUser.run({
+    await fakeUsersRepository.create({
       name: 'Tester',
       email: 'tester@admin.com',
       password: '123456',
