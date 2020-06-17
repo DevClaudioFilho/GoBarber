@@ -39,7 +39,7 @@ const AuthProvider: React.FC = ({ children }) => {
   });
 
   const singIn = useCallback(async ({ email, password }) => {
-    const response = await api.post('sessions', {
+    const response = await api.post('session', {
       email,
       password,
     });

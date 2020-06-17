@@ -28,8 +28,6 @@ const ForgotPassword: React.FC = () => {
 
   const { user, singIn } = useAuth();
 
-  console.log(user);
-
   const handleSubmit = useCallback(
     async (data: ForgotPasswordFormData) => {
       try {
@@ -87,7 +85,7 @@ const ForgotPassword: React.FC = () => {
           </Button>
         </Form>
 
-        <Link to="/singin">
+        <Link to="/">
           <FiLogIn />
           Voltar ao login
         </Link>

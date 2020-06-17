@@ -25,7 +25,7 @@ const apperFromLeft = keyframes`
     opacity:0;
     transform:translateX(-50px);
   }
-  from {
+  to {
     opacity:1;
     transform:translateX(0px);
   }
