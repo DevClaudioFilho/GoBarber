@@ -64,12 +64,12 @@ const Profile: React.FC = () => {
           initialData={{ name: user.name, email: user.email }}
           onSubmit={handleSubmit}
         >
-          <AvatarInput>
+          {/* <AvatarInput>
             <img src={user.avatar_url} alt={user.name} />
             <button type="button">
               <FiCamera />
             </button>
-          </AvatarInput>
+          </AvatarInput> */}
           <h1>Meu Perfil</h1>
 
           <Input name="name" icon={FiUser} placeholder="Nome" />

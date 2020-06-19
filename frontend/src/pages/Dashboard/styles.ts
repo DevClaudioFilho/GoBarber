@@ -9,7 +9,7 @@ export const Header = styled.header`
 `;
 
 export const HeaderContent = styled.div`
-  max-width: 120px;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -60,7 +60,7 @@ export const Profile = styled.div`
 `;
 
 export const Content = styled.main`
-  max-width: 1120px;
+  max-width: 1200px;
   margin: 64px auto;
   display: flex;
 `;
@@ -90,7 +90,7 @@ export const Scheduler = styled.div`
       width: 1px;
       height: 12px;
       background: #ff9000;
-      margin-left: 0 8px;
+      margin: 0 8px;
     }
   }
 `;

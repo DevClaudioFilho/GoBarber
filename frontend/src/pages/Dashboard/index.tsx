@@ -118,6 +118,7 @@ const Dashboard: React.FC = () => {
 
   const morningAppointments = useMemo(() => {
     return appointments.filter(appointment => {
+      console.log(appointments);
       return parseISO(appointment.date).getHours() < 12;
     });
   }, [appointments]);
@@ -130,7 +131,7 @@ const Dashboard: React.FC = () => {
 
   const nextAppointment = useMemo(() => {
     return appointments.find(appointment => {
-      isAfter(parseISO(appointment.date), new Date());
+      return isAfter(parseISO(appointment.date), new Date());
     });
   }, [appointments]);
 
@@ -199,6 +200,7 @@ const Dashboard: React.FC = () => {
                     src={appointment.user.avatar_url}
                     alt={appointment.user.name}
                   />
+
                   <span>{appointment.user.name}</span>
                 </div>
               </Appointment>
