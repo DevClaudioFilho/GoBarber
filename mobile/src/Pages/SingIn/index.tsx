@@ -15,6 +15,8 @@ import * as Yup from 'yup';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 
+import { useAuth } from '../../hooks/auth';
+
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import Input from '../../components/Input';
@@ -39,33 +41,44 @@ interface SingInFormData {
 const SingIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
+
   const navigation = useNavigation();
 
-  const handleSingIn = useCallback(async (data: SingInFormData) => {
-    try {
-      formRef.current?.setErrors({});
+  const { singIn } = useAuth();
 
-      const schema = Yup.object().shape({
-        email: Yup.string()
-          .required('Este campo e obrigatório')
-          .email('Digite um e-mail válido'),
-        password: Yup.string().required('Este campo e obrigatório'),
-      });
+  const handleSingIn = useCallback(
+    async (data: SingInFormData) => {
+      try {
+        formRef.current?.setErrors({});
 
-      await schema.validate(data, { abortEarly: false });
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const erros = getValidationErrors(err);
-        formRef.current?.setErrors(erros);
-        return;
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('Este campo e obrigatório')
+            .email('Digite um e-mail válido'),
+          password: Yup.string().required('Este campo e obrigatório'),
+        });
+
+        await schema.validate(data, { abortEarly: false });
+
+        await singIn({
+          email: data.email,
+          password: data.password,
+        });
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const erros = getValidationErrors(err);
+          formRef.current?.setErrors(erros);
+          return;
+        }
+
+        Alert.alert(
+          'Erro na autenticação',
+          'Ocorreu um erro ao fazer login, cheque as credenciais',
+        );
       }
-
-      Alert.alert(
-        'Erro na autenticação',
-        'Ocorreu um erro ao fazer login, cheque as credenciais',
-      );
-    }
-  }, []);
+    },
+    [singIn],
+  );
 
   return (
     <>

@@ -118,7 +118,7 @@ const Dashboard: React.FC = () => {
 
   const morningAppointments = useMemo(() => {
     return appointments.filter(appointment => {
-      console.log(appointments);
+      console.log(appointment);
       return parseISO(appointment.date).getHours() < 12;
     });
   }, [appointments]);
